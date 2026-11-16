@@ -1,0 +1,3110 @@
+{
+  "source": "https://github.com/MissiaL/avito-api/blob/9dac805f6887c2a21fba7a7c71e4ca6ece8d0bbc/references/avito-api-openapi.json",
+  "snapshot_date": "2026-10-03",
+  "sha256": "64a0cc31fa0bdb627dfc2d2d93ce774b66d929d1ca33ab5c6ba29d5e151370ed",
+  "official_current_verified": false,
+  "operations": {
+    "getUserBids": {
+      "path": "/auction/1/bids",
+      "method": "get",
+      "section": "auction",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "fromItemID",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "batchSize",
+            "schema": {
+              "default": 200,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": null,
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "availablePrices": {
+                            "items": {
+                              "properties": {
+                                "goodness": {
+                                  "type": "integer"
+                                },
+                                "pricePenny": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "pricePenny",
+                                "goodness"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "expirationTime": {
+                            "type": "string"
+                          },
+                          "itemID": {
+                            "type": "integer"
+                          },
+                          "pricePenny": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "itemID",
+                          "pricePenny",
+                          "expirationTime",
+                          "availablePrices"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "cpa-auction:bids"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Метод позволяет получать доступные ставки (ставка указана в копейках), а также показывает действующую ставку и время ее действия (если время действия не указано значит ставка действует бессрочно)по юзеру.\nМаксимальное количество запросов в минуту - 200.\n",
+      "rate_per_minute": null
+    },
+    "saveItemBids": {
+      "path": "/auction/1/bids",
+      "method": "post",
+      "section": "auction",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "items": {
+                    "items": {
+                      "properties": {
+                        "expirationTime": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "itemID": {
+                          "type": "integer"
+                        },
+                        "pricePenny": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "itemID",
+                        "pricePenny"
+                      ],
+                      "type": "object"
+                    },
+                    "maxItems": 200,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "items"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {},
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "cpa-auction:bids"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Метод позволяет сохранить для объявлений ставку (ставка указана в копейках) и время ее действия. Доступные ставки можно получить с помощью метода getUserBids \nМаксимальное число идентификаторов объявления в запросе = 200.\nМаксимальное количество запросов в минуту - 200.\n",
+      "rate_per_minute": null
+    },
+    "getUserInfoSelf": {
+      "path": "/core/v1/accounts/self",
+      "method": "get",
+      "section": "user",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null,
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "phones": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "profile_url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "user:read"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Возвращает идентификатор пользователя и его регистрационные данные\n",
+      "rate_per_minute": null
+    },
+    "getItemInfo": {
+      "path": "/core/v1/accounts/{user_id}/items/{item_id}/",
+      "method": "get",
+      "section": "item",
+      "signature": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null,
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "autoload_item_id": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "finish_time": {
+                      "format": "date-time",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "start_time": {
+                      "format": "date-time",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "status": {
+                      "enum": [
+                        "active",
+                        "removed",
+                        "old",
+                        "blocked",
+                        "rejected",
+                        "not_found",
+                        "another_user"
+                      ],
+                      "type": "string"
+                    },
+                    "url": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "vas": {
+                      "items": {
+                        "properties": {
+                          "finish_time": {
+                            "format": "date-time",
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "schedule": {
+                            "items": {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "vas_id": {
+                            "enum": [
+                              "vip",
+                              "highlight",
+                              "pushup",
+                              "premium",
+                              "xl"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "items:info"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Возвращает данные об объявлении - его статус, список примененных услуг Максимальное количество запросов в минуту - 500\n**Внимание:** для получения статистики объявления должен использоваться метод:\n[получение статистики по списку объявлений](#operation/itemStatsShallow)\n",
+      "rate_per_minute": null
+    },
+    "getItemsInfo": {
+      "path": "/core/v1/items",
+      "method": "get",
+      "section": "item",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "per_page",
+            "schema": {
+              "default": 25,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "default": "active",
+              "enum": [
+                "active",
+                "removed",
+                "old",
+                "blocked",
+                "rejected"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAtFrom",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": null,
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "meta": {
+                      "properties": {
+                        "page": {
+                          "type": "integer"
+                        },
+                        "per_page": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "resources": {
+                      "items": {
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "category": {
+                            "properties": {
+                              "id": {
+                                "format": "int32",
+                                "type": "integer"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "id": {
+                            "format": "int32",
+                            "type": "integer"
+                          },
+                          "price": {
+                            "nullable": true,
+                            "type": "integer"
+                          },
+                          "status": {
+                            "enum": [
+                              "active",
+                              "removed",
+                              "old",
+                              "blocked",
+                              "rejected"
+                            ],
+                            "type": "string"
+                          },
+                          "url": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "items:info"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Возвращает список объявлений авторизованного пользователя - статус, категорию и ссылку на сайте.\n**Внимание! В настоящий момент этот метод не работает с объявлениями [сотрудников](https://pro.avito.ru/employees).** Он позволяет получить объявления только для пользователя, который указан владельцем этого объявления. В случае сотрудника это будет главный аккаунт компании, для авторизованного сотрудника вернётся пустой список объявлений.\nМаксимальное количество запросов в минуту - 25.\n",
+      "rate_per_minute": null
+    },
+    "getBids": {
+      "path": "/cpxpromo/1/getBids/{itemId}",
+      "method": "get",
+      "section": "cpxpromo",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": null,
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "actionTypeID": {
+                      "type": "integer"
+                    },
+                    "auto": {
+                      "nullable": true,
+                      "properties": {
+                        "budgetPenny": {
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "budgetType": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "dailyBudget": {
+                          "properties": {
+                            "budgets": {
+                              "items": {
+                                "properties": {
+                                  "compare": {
+                                    "type": "integer"
+                                  },
+                                  "maxForecast": {
+                                    "type": "integer"
+                                  },
+                                  "minForecast": {
+                                    "type": "integer"
+                                  },
+                                  "valuePenny": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "valuePenny",
+                                  "minForecast",
+                                  "maxForecast",
+                                  "compare"
+                                ],
+                                "type": "object"
+                              },
+                              "maxItems": 200,
+                              "minItems": 1,
+                              "type": "array"
+                            },
+                            "maxLimitPenny": {
+                              "type": "integer"
+                            },
+                            "minLimitPenny": {
+                              "type": "integer"
+                            },
+                            "recBudgetPenny": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "budgets",
+                            "minLimitPenny",
+                            "maxLimitPenny",
+                            "recBudgetPenny"
+                          ],
+                          "type": "object"
+                        },
+                        "maxBudgetPenny": {
+                          "type": "integer"
+                        },
+                        "minBudgetPenny": {
+                          "type": "integer"
+                        },
+                        "monthlyBudget": {
+                          "properties": {
+                            "budgets": {
+                              "items": {
+                                "properties": {
+                                  "compare": {
+                                    "type": "integer"
+                                  },
+                                  "maxForecast": {
+                                    "type": "integer"
+                                  },
+                                  "minForecast": {
+                                    "type": "integer"
+                                  },
+                                  "valuePenny": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "valuePenny",
+                                  "minForecast",
+                                  "maxForecast",
+                                  "compare"
+                                ],
+                                "type": "object"
+                              },
+                              "maxItems": 200,
+                              "minItems": 1,
+                              "type": "array"
+                            },
+                            "maxLimitPenny": {
+                              "type": "integer"
+                            },
+                            "minLimitPenny": {
+                              "type": "integer"
+                            },
+                            "recBudgetPenny": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "budgets",
+                            "minLimitPenny",
+                            "maxLimitPenny",
+                            "recBudgetPenny"
+                          ],
+                          "type": "object"
+                        },
+                        "weeklyBudget": {
+                          "properties": {
+                            "budgets": {
+                              "items": {
+                                "properties": {
+                                  "compare": {
+                                    "type": "integer"
+                                  },
+                                  "maxForecast": {
+                                    "type": "integer"
+                                  },
+                                  "minForecast": {
+                                    "type": "integer"
+                                  },
+                                  "valuePenny": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "valuePenny",
+                                  "minForecast",
+                                  "maxForecast",
+                                  "compare"
+                                ],
+                                "type": "object"
+                              },
+                              "maxItems": 200,
+                              "minItems": 1,
+                              "type": "array"
+                            },
+                            "maxLimitPenny": {
+                              "type": "integer"
+                            },
+                            "minLimitPenny": {
+                              "type": "integer"
+                            },
+                            "recBudgetPenny": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "budgets",
+                            "minLimitPenny",
+                            "maxLimitPenny",
+                            "recBudgetPenny"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "minBudgetPenny",
+                        "maxBudgetPenny",
+                        "dailyBudget",
+                        "weeklyBudget",
+                        "monthlyBudget"
+                      ],
+                      "type": "object"
+                    },
+                    "manual": {
+                      "nullable": true,
+                      "properties": {
+                        "bidPenny": {
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "bids": {
+                          "items": {
+                            "properties": {
+                              "compare": {
+                                "type": "integer"
+                              },
+                              "maxForecast": {
+                                "type": "integer"
+                              },
+                              "minForecast": {
+                                "type": "integer"
+                              },
+                              "valuePenny": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "valuePenny",
+                              "minForecast",
+                              "maxForecast",
+                              "compare"
+                            ],
+                            "type": "object"
+                          },
+                          "maxItems": 200,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "limitPenny": {
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "maxBidPenny": {
+                          "type": "integer"
+                        },
+                        "maxLimitPenny": {
+                          "type": "integer"
+                        },
+                        "minBidPenny": {
+                          "type": "integer"
+                        },
+                        "minLimitPenny": {
+                          "type": "integer"
+                        },
+                        "recBidPenny": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "recBidPenny",
+                        "minBidPenny",
+                        "maxBidPenny",
+                        "minLimitPenny",
+                        "maxLimitPenny",
+                        "bids"
+                      ],
+                      "type": "object"
+                    },
+                    "selectedType": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "actionTypeID",
+                    "selectedType"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "cpxpromo:read"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Метод позволяет получить детализированную информацию о действующих и доступных ценах целевого действия (в копейках), бюджетах (в копейках) и преимуществах перед конкурентами.\nМаксимальное количество запросов в минуту - 20\n",
+      "rate_per_minute": 20
+    },
+    "getPromotionsByItemIds": {
+      "path": "/cpxpromo/1/getPromotionsByItemIds",
+      "method": "post",
+      "section": "cpxpromo",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "itemIDs": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "maxItems": 200,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "itemIDs"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "actionTypeID": {
+                            "type": "integer"
+                          },
+                          "autoPromotion": {
+                            "nullable": true,
+                            "properties": {
+                              "budgetPenny": {
+                                "type": "integer"
+                              },
+                              "budgetType": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "budgetPenny",
+                              "budgetType"
+                            ],
+                            "type": "object"
+                          },
+                          "itemID": {
+                            "type": "integer"
+                          },
+                          "manualPromotion": {
+                            "nullable": true,
+                            "properties": {
+                              "bidPenny": {
+                                "type": "integer"
+                              },
+                              "limitPenny": {
+                                "nullable": true,
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "bidPenny"
+                            ],
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "itemID",
+                          "actionTypeID"
+                        ],
+                        "type": "object"
+                      },
+                      "maxItems": 200,
+                      "minItems": 1,
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "cpxpromo:read"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Метод позволяет получить текущие цены целевого действия (в копейках) и бюджеты (в копейках) по нескольким объявлениям.\nМаксимальное количество передаваемых объявлений - 200.\nМаксимальное количество запросов в минуту - 400.\n",
+      "rate_per_minute": 400
+    },
+    "saveManualBid": {
+      "path": "/cpxpromo/1/setManual",
+      "method": "post",
+      "section": "cpxpromo",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "actionTypeID": {
+                    "type": "integer"
+                  },
+                  "bidPenny": {
+                    "type": "integer"
+                  },
+                  "itemID": {
+                    "type": "integer"
+                  },
+                  "limitPenny": {
+                    "nullable": true,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "itemID",
+                  "bidPenny",
+                  "actionTypeID"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {},
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "cpxpromo:edit"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Метод позволяет установить цену за целевое действие и лимит трат (обе суммы нужно указать в копейках).\n\nЦена целевого действия должна быть больше минимальной цены (посмотреть минимальную цену можно в ручке получения получения детализированной информации о действующих и доступных ценах за целевые действия и бюджетах). Лимит трат указывать необязательно.\n\nМаксимальное количество запросов в минуту - 20.\n",
+      "rate_per_minute": 20
+    },
+    "get_services_by_items_v2": {
+      "path": "/promotion/v2/items/services/get",
+      "method": "post",
+      "section": "promotion",
+      "signature": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Ah-Employee-Id",
+            "schema": {
+              "nullable": true,
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "itemIds": {
+                    "items": {
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "degraded": {
+                      "type": "boolean"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "errorCode": {
+                            "format": "int64",
+                            "type": "integer"
+                          },
+                          "errorText": {
+                            "type": "string"
+                          },
+                          "itemId": {
+                            "format": "int64",
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "itemId",
+                          "errorCode",
+                          "errorText"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "itemId": {
+                            "format": "int64",
+                            "type": "integer"
+                          },
+                          "services": {
+                            "items": {
+                              "properties": {
+                                "endDate": {
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "slug": {
+                                  "type": "string"
+                                },
+                                "startDate": {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "degraded"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "details": {
+                      "items": {
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "enum": [
+                              "header",
+                              "url",
+                              "query",
+                              "body"
+                            ],
+                            "type": "string"
+                          },
+                          "value": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "source",
+                          "path",
+                          "message"
+                        ],
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "details": {
+                      "items": {
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "enum": [
+                              "header",
+                              "url",
+                              "query",
+                              "body"
+                            ],
+                            "type": "string"
+                          },
+                          "value": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "source",
+                          "path",
+                          "message"
+                        ],
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "details": {
+                      "items": {
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "enum": [
+                              "header",
+                              "url",
+                              "query",
+                              "body"
+                            ],
+                            "type": "string"
+                          },
+                          "value": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "source",
+                          "path",
+                          "message"
+                        ],
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "details": {
+                      "items": {
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "enum": [
+                              "header",
+                              "url",
+                              "query",
+                              "body"
+                            ],
+                            "type": "string"
+                          },
+                          "value": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "source",
+                          "path",
+                          "message"
+                        ],
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "details": {
+                      "items": {
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "enum": [
+                              "header",
+                              "url",
+                              "query",
+                              "body"
+                            ],
+                            "type": "string"
+                          },
+                          "value": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "source",
+                          "path",
+                          "message"
+                        ],
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "details": {
+                      "items": {
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "enum": [
+                              "header",
+                              "url",
+                              "query",
+                              "body"
+                            ],
+                            "type": "string"
+                          },
+                          "value": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "source",
+                          "path",
+                          "message"
+                        ],
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "items:info"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Получение списка активных услуг продвижения по объявлениям.\nПри частичном ответе проверяйте поле `degraded`.\n\n**Rate limit:** 100 RPM\n",
+      "rate_per_minute": null
+    },
+    "itemStatsShallow": {
+      "path": "/stats/v1/accounts/{user_id}/items",
+      "method": "post",
+      "section": "item",
+      "signature": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "dateFrom": {
+                    "type": "string"
+                  },
+                  "dateTo": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "items": {
+                      "enum": [
+                        "views",
+                        "uniqViews",
+                        "contacts",
+                        "uniqContacts",
+                        "favorites",
+                        "uniqFavorites"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "itemIds": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "required": [
+                      "items"
+                    ],
+                    "type": "array"
+                  },
+                  "periodGrouping": {
+                    "enum": [
+                      "day",
+                      "week",
+                      "month"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "itemIds",
+                  "dateFrom",
+                  "dateTo"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errors": {
+                      "type": "object"
+                    },
+                    "result": {
+                      "properties": {
+                        "items": {
+                          "items": {
+                            "properties": {
+                              "itemId": {
+                                "format": "int64",
+                                "type": "integer"
+                              },
+                              "stats": {
+                                "items": {
+                                  "properties": {
+                                    "contacts": {
+                                      "deprecated": true,
+                                      "type": "integer"
+                                    },
+                                    "date": {
+                                      "format": "date",
+                                      "type": "string"
+                                    },
+                                    "favorites": {
+                                      "deprecated": true,
+                                      "type": "integer"
+                                    },
+                                    "uniqContacts": {
+                                      "type": "integer"
+                                    },
+                                    "uniqFavorites": {
+                                      "type": "integer"
+                                    },
+                                    "uniqViews": {
+                                      "type": "integer"
+                                    },
+                                    "views": {
+                                      "deprecated": true,
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "required": [
+                                    "date"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "stats:read"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Получение счетчиков по переданному списку объявлений пользователя.\n\n**Внимание:** в запросе может быть передано не более 200 идентификаторов объявлений.\n\n**Внимание:** глубина такого запроса ограничена 270 днями.\n\n### Счетчики\n* ~~views - общее число просмотров объявления;~~ __DEPRECATED (будет удалено в апреле 2021 г.).__ Используйте поле uniqViews.\n* uniqViews - число уникальных пользователей, просмотревших объявление;\n* ~~contacts - число контактов [1];~~ __DEPRECATED (будет удалено в апреле 2021 г.).__ Используйте поле uniqContacts.\n* uniqContacts - число уникальных пользователей, совершивших контакты [1];\n* ~~favorites - число добавлений объявления в \"избранное\";~~ __DEPRECATED (будет удалено в апреле 2021 г.).__ Используйте поле uniqFavorites.\n* uniqFavorites - число уникальных пользователей, добавивших объявление в \"избранное\".\n\n### Группировка счетчиков\nСчетчики могут быть сгруппированы [2] по:\n* дням;\n* неделям - в поле `date` соответствующей структуры будет первый день недели;\n* месяцам - в поле `date` соответствующей структуры будет первый день месяца.\n\n#### Период группировки\nПериод группировки передается в теле запроса в поле `periodGrouping`. Доступные значения этого поля:\n* \"day\" (по умолчанию) - без группировки;\n* \"week\" - суммирование счетчиков за неделю;\n* \"month\" - суммирование счетчиков за месяц.\n\n### Примечания\n* [1]: Под контактом понимаются: запросы телефона продавца, начатый чат с продавцом по конкретному объявлению, отклик на резюме и пр.\n* [2]: Группировка уникальных пользователей происходит только в рамках одного дня.\n",
+      "rate_per_minute": null
+    },
+    "itemAnalytics": {
+      "path": "/stats/v2/accounts/{user_id}/items",
+      "method": "post",
+      "section": "item",
+      "signature": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "dateFrom": {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "dateTo": {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "nullable": true,
+                    "properties": {
+                      "categoryIDs": {
+                        "items": {
+                          "type": "integer"
+                        },
+                        "nullable": true,
+                        "type": "array"
+                      },
+                      "employeeIDs": {
+                        "items": {
+                          "type": "integer"
+                        },
+                        "nullable": true,
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "grouping": {
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "item",
+                      "totals"
+                    ],
+                    "type": "string"
+                  },
+                  "limit": {
+                    "maximum": 1000,
+                    "minimum": 0,
+                    "nullable": true,
+                    "type": "integer"
+                  },
+                  "metrics": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "offset": {
+                    "minimum": 0,
+                    "nullable": true,
+                    "type": "integer"
+                  },
+                  "sort": {
+                    "nullable": true,
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "order": {
+                        "enum": [
+                          "asc",
+                          "desc"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "order"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "dateFrom",
+                  "dateTo",
+                  "metrics",
+                  "grouping",
+                  "limit",
+                  "offset"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "result": {
+                      "properties": {
+                        "dataTotalCount": {
+                          "type": "integer"
+                        },
+                        "groupings": {
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "metrics": {
+                                "items": {
+                                  "properties": {
+                                    "slug": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "format": "float",
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "slug",
+                                    "value"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "type": {
+                                "enum": [
+                                  "day",
+                                  "week",
+                                  "month",
+                                  "item",
+                                  "totals"
+                                ],
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "timestamp": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "stats:read"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Получение статистических показателей по профилю.\n### Группировки показателей\nИспользуйте группировки, чтобы получать конкретную статистику.  Например, можете запросить только общие значения показателей, а если нужны подробности, — значения показателей по каждому объявлению или за определённый период. Доступные группировки:\n\n  - **totals** — по общему значению показателя за определённый период, без детализации;\n  - **item** — по объявлениям;\n  - **day** — по дням;\n  - **week** — по неделям;\n  - **month** — по месяцам.\n\n\n### Доступные показатели по объявлениям\n#### Основные\n\n  - **views** - Просмотры. Сколько раз объявление показывалось в результатах поиска и рекомендациях. Несколько показов за сутки одному пользователю считаются как один.\n  - **contacts** - Контакты. Количество пользователей, которые посмотрели ваш номер, написали в чат или откликнулись на скидку после рассылки. Несколько контактов за сутки от одного пользователя считаются как один.\n    - **contactsShowPhone** - Посмотрели телефон. Количество пользователей, которые посмотрели ваш телефон или нажали «Позвонить». Несколько таких действий за сутки от одного пользователя считаются как один.\n    - **contactsMessenger** - Написали в чат. Количество пользователей, которые написали вам. Несколько чатов за сутки от одного пользователя считаются как один.\n    - **contactsShowPhoneAndMessenger** - Посмотрели телефон и написали в чат. Количество пользователей, которые и посмотрели ваш телефон, и написали в чат. Несколько таких действий за сутки от одного пользователя считаются как один.\n    - **contactsSbcDiscount** - Откликнулись на скидку в чате. Количество пользователей, которые приняли ваше спецпредложение после рассылки.\n  - **viewsToContactsConversion** - Конверсия из просмотров в контакты. Процент пользователей, которые после перехода в объявление посмотрели ваш телефон или написали в чат.\n  - **favorites** - Добавили в избранное. Сколько раз объявление добавили в избранное.\n  - **averageViewCost** - Средняя цена просмотра. Расходы на размещение и продвижение объявлений делятся на число просмотров.\n  - **averageContactCost** - Средняя цена контакта. Расходы на размещение и продвижение объявлений делятся на число контактов.\n  - **impressions** - Показы. Сколько раз объявление показывалось в результатах поиска и рекомендациях. Несколько показов за сутки одному пользователю считаются как один.\n  - **impressionsToViewsConversion** - Конверсия из показов в просмотры. Процент пользователей, которые перешли в объявление после того, как оно показалось в результатах поиска и рекомендациях.\n\n\n#### Целевые действия\n\n  - **clickPackages**\t- Целевые просмотры. Просмотры, которые оплачены из тарифа и считаются целевыми [по правилам Авито](https://www.avito.ru/legal/rules/paid_services/cost-per-action/#clicks).\n  - **jobContacts** - Отклики на вакансии. Отклики, которые оплачены из тарифа и считаются целевыми [по правилам Авито](https://www.avito.ru/legal/rules/paid_services/cost-per-action/#clicks).\n\n\n#### Заказы с Авито Доставкой\n\n  - **viewsToOrderedItemsConversion** - Конверсия из просмотров в заказанные товары. Процент пользователей, которые после перехода в объявление заказали товар.\n  - **orderedItems** - Заказано товаров. Количество товаров, которые заказали с Авито Доставкой.\n  - **orderedItemsPrice** - Стоимость заказанных товаров в копейках. Общая стоимость заказов. Это сумма, которую вы получите на руки, если клиенты примут заказы.\n  - **deliveredItems** - Доставлено товаров. Количество товаров, которые заказали с Авито Доставкой и уже приняли.\n  - **deliveredItemsPrice** - Стоимость доставленных товаров в копейках. Общая стоимость заказов, которые покупатели приняли. Это сумма, которую вы получаете на руки.\n\n\n#### Посуточная аренда\n\n  - **bookingPlacedCount** - Получено заявок. Общее количество заявок на бронирование\n  - **bookingPlacedPrice** - Стоимость полученных заявок в копейках. Общая стоимость бронирований. Это сумма, которую вы получите на руки, если гости заселятся.\n  - **bookingApprovedCount** - Подтверждено заявок. Количество заявок на бронирование, которые вы подтвердили.\n  - **bookingApprovedPrice** - Стоимость подтвержденных заявок в копейках. Общая стоимость бронирований, которые вы подтвердили. Это сумма, которую вы получите на руки, если гости заселятся.\n  - **bookingAcceptedCount** - Заявки с заселением. Количество бронирований, по которым заселились гости. Заселение засчитывается в 15:00 по Москве на следующий день после заезда.\n  - **bookingAcceptedPrice** - Стоимость заявок с заселением в копейках. Общая стоимость бронирований, по которым заселились гости. Это сумма, которую вы получаете на руки.\n\n\n#### Расходы\n\n  - **allSpending** - Все расходы в копейках. Сколько всего денег и бонусов вы потратили на объявления.\n    - **spending** - Расходы на объявления в копейках. Сколько денег вы потратили на размещение, продвижение, целевые действия и комиссию.\n      - **presenceSpending** - Расходы на размещение и целевые действия в копейках. Сколько денег вы потратили на размещения и целевые действия — просмотры, чаты, звонки и отклики.\n      - **promoSpending** - Расходы на продвижение в копейках. Сколько денег вы потратили на продвижение и на услуги, которые влияют на внешний вид объявления.\n      - **restSpending** - Остальные расходы в копейках. Сколько денег вы потратили на чат-ботов и услуги, которые система не смогла распознать.\n      - **commission** - Комиссия в копейках. Какую комиссию вы заплатили за заказы с Авито Доставкой, которые приняли покупатели, а также за бронирования жилья.\n    - **spendingBonus** - Списано бонусов на объявления. Сколько бонусов вы потратили на размещение, продвижение, целевые действия и комиссию.\n\n\n#### Количество объявлений за период\n\n  - **activeItems** - Активные объявления. Объявления, которые прошли проверку и появились в поиске.        \n    - **newActiveItems** - Новые и опубликованные заново объявления. Сколько объявлений опубликовано впервые или повторно.\n    - **oldActiveItems** - Активны с прошлого периода. Сколько объявлений остаются опубликованными с предыдущего периода.\n\n\n### Примечания\n\n  * Из ручки возвращается не более чем по 1000 сущностей. Вы можете использовать поля запроса limit и offset для регулировки выбранного диапазона.\n  * Глубина данных статистики такого запроса ограничена 270 днями.\n  * В случае недоступности метрики для пользователя она не приходит в ответе. \n  * Система позволяет делать не более одного запроса в минуту на данный метод.\n",
+      "rate_per_minute": 1
+    },
+    "accountSpendings": {
+      "path": "/stats/v2/accounts/{user_id}/spendings",
+      "method": "post",
+      "section": "item",
+      "signature": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "dateFrom": {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "dateTo": {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "nullable": true,
+                    "properties": {
+                      "categoryIDs": {
+                        "items": {
+                          "type": "integer"
+                        },
+                        "nullable": true,
+                        "type": "array"
+                      },
+                      "itemIDs": {
+                        "items": {
+                          "type": "integer"
+                        },
+                        "nullable": true,
+                        "type": "array"
+                      },
+                      "locationIDs": {
+                        "items": {
+                          "type": "integer"
+                        },
+                        "nullable": true,
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "grouping": {
+                    "enum": [
+                      "day",
+                      "week",
+                      "month"
+                    ],
+                    "type": "string"
+                  },
+                  "spendingTypes": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "dateFrom",
+                  "dateTo",
+                  "spendingTypes",
+                  "grouping"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "result": {
+                      "properties": {
+                        "groupings": {
+                          "items": {
+                            "properties": {
+                              "date": {
+                                "type": "string"
+                              },
+                              "spendings": {
+                                "items": {
+                                  "properties": {
+                                    "services": {
+                                      "items": {
+                                        "properties": {
+                                          "slug": {
+                                            "type": "string"
+                                          },
+                                          "value": {
+                                            "format": "float",
+                                            "type": "number"
+                                          }
+                                        },
+                                        "required": [
+                                          "slug",
+                                          "value"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    },
+                                    "slug": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "format": "float",
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "slug",
+                                    "value"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "type": {
+                                "enum": [
+                                  "day",
+                                  "week",
+                                  "month"
+                                ],
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "date",
+                              "type",
+                              "spendings"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "timestamp": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "groupings",
+                        "timestamp"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message",
+                        "code"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthorizationCode": [
+              "stats:read"
+            ]
+          },
+          {
+            "ClientCredentials": []
+          }
+        ]
+      },
+      "description": "Получение статистики расходов профиля.\n\n**Внимание:** Глубина данных статистики такого запроса ограничена 270 днями.\n\n**Внимание:** Система позволяет делать не более одного запроса в минуту на данный метод.\n\n### Группировки расходов\nИспользуйте группировки, чтобы получать конкретную статистику. Доступные группировки:\n\n  - **day** — по дням;\n  - **week** — по неделям;\n  - **month** — по месяцам.\n\n\n### Доступные типы расходов\n\n  - **all** - Все расходы в копейках. Сколько всего денег вы потратили на объявления и прочие услуги.\n    - **promotion** - Расходы на продвижение в копейках. Сколько денег вы потратили на продвижение объявлений и услуги, которые влияют на внешний вид объявления.\n    - **presence** - Расходы на размещение и целевые действия в копейках. Сколько денег вы потратили на размещение объявлений и целевые действия с ними — просмотры, чаты, звонки и отклики.\n    - **commission** - Комиссия в копейках. Какую комиссию вы заплатили за заказы с Авито Доставкой, которые приняли покупатели, а также за бронирование жилья.\n    - **rest** - Остальные расходы в копейках. Сколько денег вы потратили на чат-ботов и услуги, которые система не смогла распознать.\n",
+      "rate_per_minute": 1
+    },
+    "getAccessToken": {
+      "path": "/token",
+      "method": "post",
+      "section": "auth",
+      "signature": {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "properties": {
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "type": "string"
+                  },
+                  "grant_type": {
+                    "default": "client_credentials",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "client_id",
+                  "client_secret"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "format": "int32",
+                      "type": "number"
+                    },
+                    "token_type": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "description": "Получения временного ключа для авторизации",
+      "rate_per_minute": null
+    }
+  }
+}

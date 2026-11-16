@@ -1,0 +1,115 @@
+{
+  "item": {
+    "item_id": 1,
+    "title": "Mock replay",
+    "promotion_model": "MOCK",
+    "auto_enabled": true,
+    "min_bid": 100,
+    "max_bid": 5000,
+    "daily_budget": 10000,
+    "cooldown_minutes": 2,
+    "queries": [
+      {
+        "text": "demo",
+        "region": "demo"
+      }
+    ]
+  },
+  "bid_info": {
+    "item_id": 1,
+    "bid": 2000,
+    "checked_at": "2026-01-05T12:00:00+00:00",
+    "capabilities": {
+      "model": "MOCK",
+      "verified": true,
+      "can_write": true,
+      "minimum": 100,
+      "maximum": 5000,
+      "increment": 100,
+      "expires_at": "2026-01-05T13:00:00+00:00"
+    }
+  },
+  "frames": [
+    {
+      "now": "2026-01-05T12:00:00+00:00",
+      "spending": {
+        "item_id": 1,
+        "item_spent": 0,
+        "account_spent": 0,
+        "checked_at": "2026-01-05T12:00:00+00:00",
+        "period_date": "2026-01-05",
+        "reliable": true
+      },
+      "observations": [
+        {
+          "item_id": 1,
+          "search_query": "demo",
+          "region": "demo",
+          "position": 5,
+          "position_type": "MIXED",
+          "checked_at": "2026-01-05T11:58:00+00:00",
+          "provider": "mock",
+          "confidence": 1,
+          "status": "FOUND"
+        },
+        {
+          "item_id": 1,
+          "search_query": "demo",
+          "region": "demo",
+          "position": 5,
+          "position_type": "MIXED",
+          "checked_at": "2026-01-05T11:59:00+00:00",
+          "provider": "mock",
+          "confidence": 1,
+          "status": "FOUND"
+        },
+        {
+          "item_id": 1,
+          "search_query": "demo",
+          "region": "demo",
+          "position": 5,
+          "position_type": "MIXED",
+          "checked_at": "2026-01-05T12:00:00+00:00",
+          "provider": "mock",
+          "confidence": 1,
+          "status": "FOUND"
+        }
+      ]
+    },
+    {
+      "now": "2026-01-05T12:07:00+00:00",
+      "spending": {
+        "item_id": 1,
+        "item_spent": 0,
+        "account_spent": 0,
+        "checked_at": "2026-01-05T12:07:00+00:00",
+        "period_date": "2026-01-05",
+        "reliable": true
+      },
+      "observations": [
+        {
+          "item_id": 1,
+          "search_query": "demo",
+          "region": "demo",
+          "position": 9,
+          "position_type": "MIXED",
+          "checked_at": "2026-01-05T12:06:00+00:00",
+          "provider": "mock",
+          "confidence": 1,
+          "status": "FOUND"
+        },
+        {
+          "item_id": 1,
+          "search_query": "demo",
+          "region": "demo",
+          "position": 9,
+          "position_type": "MIXED",
+          "checked_at": "2026-01-05T12:07:00+00:00",
+          "provider": "mock",
+          "confidence": 1,
+          "status": "FOUND"
+        }
+      ]
+    }
+  ]
+}

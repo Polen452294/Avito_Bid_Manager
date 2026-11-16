@@ -1,0 +1,33 @@
+from enum import StrEnum
+
+
+class Mode(StrEnum):
+    DRY_RUN = "DRY_RUN"
+    ASSISTED = "ASSISTED"
+    AUTO = "AUTO"
+
+
+class PromotionModel(StrEnum):
+    UNKNOWN = "UNKNOWN"
+    CPX = "CPX"
+    CPA_AUCTION = "CPA_AUCTION"
+    SERVICE = "SERVICE"
+    MOCK = "MOCK"
+
+
+class PositionStatus(StrEnum):
+    FOUND = "FOUND"
+    NOT_FOUND_IN_CHECKED_RANGE = "NOT_FOUND_IN_CHECKED_RANGE"
+    UNAVAILABLE = "UNAVAILABLE"
+    INVALID_DATA = "INVALID_DATA"
+    UNSUPPORTED = "UNSUPPORTED"
+    RATE_LIMITED = "RATE_LIMITED"
+
+
+class PositionType(StrEnum):
+    ORGANIC = "ORGANIC"
+    ADVERTISING = "ADVERTISING"
+    MIXED = "MIXED"
+    UNVERIFIED = "UNVERIFIED"
+    AVERAGE = "AVERAGE"
+    UNKNOWN = "UNKNOWN"

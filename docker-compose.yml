@@ -1,0 +1,27 @@
+name: avito-bid-manager
+services:
+  manager:
+    build: .
+    restart: unless-stopped
+    init: true
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: sqlite+aiosqlite:///data/manager.db
+      MODE: DRY_RUN
+    volumes:
+      - manager-data:/app/data
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD", "python", "-m", "app.main", "health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+volumes:
+  manager-data:

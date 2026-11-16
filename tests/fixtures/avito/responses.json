@@ -1,0 +1,20 @@
+{
+  "_provenance": "Synthetic responses shaped to MissiaL/avito-api snapshot 2026-10-03; not captured from a live account",
+  "token": {"access_token": "test-access-token", "token_type": "Bearer", "expires_in": 86400},
+  "account": {"id": 10, "name": "Fixture account"},
+  "listings": {"resources": [{"id": 1, "title": "Fixture listing", "status": "active"}], "meta": {"page": 1, "per_page": 25}},
+  "item": {"status": "active", "vas": []},
+  "cpx": {
+    "actionTypeID": 5, "selectedType": "manual",
+    "manual": {"bidPenny": 2000, "limitPenny": 10000, "minBidPenny": 100,
+      "maxBidPenny": 5000, "minLimitPenny": 1000, "maxLimitPenny": 50000,
+      "recBidPenny": 2000, "bids": [{"valuePenny": 2000, "minForecast": 10, "maxForecast": 20, "compare": 50}]},
+    "auto": null
+  },
+  "cpx_promotions": {"items": [{"itemID": 1, "actionTypeID": 5, "manualPromotion": {"bidPenny": 2000, "limitPenny": 10000}, "autoPromotion": null}]},
+  "auction": {"items": [{"itemID": 1, "pricePenny": 2000, "expirationTime": "", "availablePrices": [{"pricePenny": 2000, "goodness": 1}, {"pricePenny": 2200, "goodness": 2}]}]},
+  "services": {"degraded": false, "items": [{"itemId": 1, "services": []}], "errors": []},
+  "counters": {"result": {"items": [{"itemId": 1, "stats": []}]}},
+  "analytics": {"result": {"dataTotalCount": 1, "groupings": [{"id": 0, "type": "totals", "metrics": [{"slug": "spending", "value": 12345}, {"slug": "contacts", "value": 3}]}], "timestamp": "2026-11-16T00:00:00Z"}},
+  "spendings": {"result": {"groupings": [{"date": "2026-11-15", "type": "day", "spendings": [{"slug": "all", "value": 12345}, {"slug": "promotion", "value": 10000}]}], "timestamp": 1794787200}}
+}
